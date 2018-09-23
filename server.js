@@ -14,11 +14,8 @@ app.listen(port, () => {
     console.log(`I am listening to ${port}`)
 })
 
-app.use('/dist', express.static(path.join(__dirname, 'dist')) )
+app.use(express.static(path.join(__dirname, 'dist')) )
 
-app.get('/', (req, res, next) => {
-    res.sendFile(path.join(__dirname, 'index.html'))
-})
 
 app.get('/schools', (req, res, next) => {
     School.findAll()
@@ -32,6 +29,10 @@ app.get('/students', (req, res, next) => {
     .then((students) => {
         res.send(students)
     })
+})
+
+app.use('*', (req, res, next) => {
+    res.sendFile(path.join(__dirname,'index.html'))
 })
 
 
