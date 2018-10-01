@@ -25,15 +25,32 @@ app.get('/schools', (req, res, next) => {
 })
 
 app.get('/students', (req, res, next) => {
-    Student.findAll()
+    Student.findAll({
+        include: [
+            {model: School}
+        ]
+    })
     .then((students) => {
         res.send(students)
     })
 })
 
+app.delete('/students/:id', (req, res, next) => {
+    Student.findById(req.params.id)
+        .then(student => student.destroy())
+        .then(() => res.sendStatus(202))
+})
+
+app.post('/student/create', (req, res, next) => {
+    Student.create(req.body)
+        .then(() => res.sendStatus(200))
+})
+
+
 app.use('*', (req, res, next) => {
     res.sendFile(path.join(__dirname,'index.html'))
 })
+
 
 
 
@@ -43,4 +60,4 @@ app.use('*', (req, res, next) => {
 
 // /schools/:id 
 
-// /students/:id 
+// /student/:id 

@@ -6,6 +6,8 @@ import axios from 'axios'
 //Action Types
 const LOAD_SCHOOLS = 'LOAD_SCHOOLS'
 const LOAD_STUDENTS = 'LOAD_STUDENTS'
+const DELETE_STUDENT = 'DELETE_STUDENT'
+const CREATE_STUDENT = 'CREATE_STUDENT'
 
 //Action Creators
 const _loadSchools = (schools) => {
@@ -19,6 +21,20 @@ const _loadStudents = (students) => {
     return  {
         type: LOAD_STUDENTS,
         students
+    }
+}
+
+const _deleteStudent = (student) => {
+    return {
+        type: DELETE_STUDENT,
+        student
+    }
+}
+
+const _createStudent = (student) => {
+    return {
+        type: CREATE_STUDENT,
+        student
     }
 }
 
@@ -40,7 +56,22 @@ const loadStudents = () => {
     }
 }
 
+const deleteStudent = (student) => {
+    return (dispatch) => {
+        return axios.delete(`/students/${student.id}`)
+                .then(() => dispatch(_deleteStudent(student)))
+    }
+}
 
+const createStudent = (student) => {
+    return (dispatch) => {
+        return axios.post('/student/create', student)
+            .then(response => response.data)
+            .then(student => dispatch(_createStudent(student)))
+    }
+}
+
+//Reducer
 const initialState = {
     schools: [],
     students: []
@@ -54,6 +85,15 @@ const reducer = (state = initialState, action) => {
         case LOAD_STUDENTS:
             state = {schools: state.schools,students: action.students}
             break
+        case DELETE_STUDENT:
+            const studentList = state.students.filter(student => student.id !== action.student.id)
+            state = {schools: state.schools, students: studentList}
+            break
+        case CREATE_STUDENT:
+            const studentAdded = [...state.students, action.student]
+            state = {schools: state.schools, students: studentAdded}
+            console.log(state)
+            break
     }
     return state
 }
@@ -63,4 +103,4 @@ const store = createStore(reducer, applyMiddleware(thunk))
 
 export default store
 
-export {loadSchools, loadStudents}
+export {loadSchools, loadStudents, deleteStudent, createStudent}

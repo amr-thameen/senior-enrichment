@@ -22,3 +22,14 @@ h4 {
 a {
   color: rgb(72, 65, 201)
 }
+
+#flex{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#hr {
+  color: #000000;
+  width: 100px
+}

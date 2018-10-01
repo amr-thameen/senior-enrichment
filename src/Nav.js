@@ -7,8 +7,8 @@ const Nav = ({schools, students}) => {
         <Fragment>
             <h1 className="text-center">Hey, you have {schools.length} schools and {students.length} students!</h1>
             <br/>
-            <Link to = {'/schools'}> <button className = "btn btn-primary btn-lg"> Schools {schools.length}</button> </Link>
-            <Link to = {'/students'}> <button className="btn btn-info btn-lg"> Students {students.length} </button> </Link>
+            <Link to = {'/schools'}> <button className ="btn btn-primary btn-lg"> All Schools {schools.length}</button> </Link>
+            <Link to = {'/students'}> <button className="btn btn-info btn-lg"> All Students {students.length} </button> </Link>
         </Fragment>
     )
 }
