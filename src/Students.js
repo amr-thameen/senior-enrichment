@@ -1,52 +1,57 @@
-import React, {Component} from 'react'
-import {connect} from 'react-redux'
-import {Link, Route} from 'react-router-dom'
-import {loadStudents} from './store'
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { Link, Route } from 'react-router-dom'
 
 
 class Students extends Component {
-    constructor(props){
+    constructor(props) {
         super(props)
         this.state = {
             students: this.props.students
         }
+        this.findSchool = this.findSchool.bind(this)
     }
 
-    componentDidMount (){
-        this.props.loadStudents()
+    componentDidMount(){
+        console.log('****', this.props.students)
+        this.setState({
+            students: this.props.students
+        })
     }
 
-    render(){
+
+    findSchool (schoolId) {
+        const schools = this.props.schools
+        const school = schools.find(school => school.id === schoolId) 
+        return school.name
+    }
+
+    render() {
         const students = this.props.students
-
+        
         return (
             <div>
-            <br/>
-            {students.map(student => {
-                return (
-                    <div key = {student.id}>
-                        <h4><Link to = {`/students/${student.id}`}>{student.firstName} {student.lastName}</Link>  <Link to = {`/schools/${student.schoolId}`}> {student.schoolId ? student.school.name : ''}</Link></h4>
-                    </div>
-                )
-            })}
-            <Link to={'/students/create'}><button className ="btn btn-primary">+ Create New Student</button></Link>
+                <br />
+                {students.map(student => {
+                    return (
+                        <div key={student.id}>
+                            <h4><Link to={`/students/${student.id}`}>{student.firstName} {student.lastName}</Link>
+                                <Link to={`/schools/${student.schoolId}`}> {student.schoolId ? this.findSchool(student.schoolId) : ''}</Link></h4>
+                        </div>
+                    )
+                })}
+                <Link to={'/students/create'}><button className="btn btn-primary">+ Create New Student</button></Link>
             </div>
         )
     }
 }
 
-const mapStateToProps = ({students}) => {
+const mapStateToProps = ({ students, schools }) => {
     return {
         students,
-    }
-}
-
-const mapDispatchToProps = (dispatch) => {
-    return {
-        loadStudents: () => dispatch(loadStudents()),
+        schools
     }
 }
 
 
-
-export default connect(mapStateToProps, mapDispatchToProps)(Students)
+export default connect(mapStateToProps)(Students)

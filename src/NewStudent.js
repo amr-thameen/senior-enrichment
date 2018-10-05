@@ -3,14 +3,14 @@ import {connect} from 'react-redux'
 import {createStudent} from './store'
 
 class NewStudent extends Component {
-    constructor(){
-        super()
+    constructor(props){
+        super(props)
         this.state = {
                 id: 0,
                 firstName: '',
                 lastName: '',
                 gpa: 0,
-                school: ''
+                schoolId: this.props.school ? this.props.school.id : ''
         }
         this.onChange = this.onChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
@@ -24,14 +24,15 @@ class NewStudent extends Component {
 
     handleSubmit(ev){
         ev.preventDefault()
-        createStudent(this.state)
-        console.log(this.state)
+        this.props.createStudent(this.state)
+        this.props.history.push('/students')
     }
 
     render() {
         const {onChange, handleSubmit} = this
-        const {firstName, lastName, gpa, school} = this.state
-        const {schools} = this.props
+        const {firstName, lastName, gpa, schoolId} = this.state
+        const {schools, params, match, school} = this.props
+        console.log(match)
         return (
             <div>
             <h1>{this.state.firstName + ' ' + this.state.lastName}</h1>
@@ -50,10 +51,10 @@ class NewStudent extends Component {
                 </div>
                 <div>
                     <label>School</label>
-                    {/* <input value = {school} name = 'school' onChange={onChange}></input> */}
-                    <select>
+                    <select name = 'schoolId' onChange = {onChange} value = {this.state.schoolId}>
+                        <option value = ''>None</option>
                         {schools.map(school => {
-                            return  <option key = {school.id}>{school.name}</option>
+                            return <option key = {school.id} value = {school.id}> {school.name} </option>
                         })}
                     </select>
                 </div>
@@ -64,9 +65,15 @@ class NewStudent extends Component {
     }
 }
 
-const mapStateToProps = ({schools}) => {
+const mapStateToProps = ({schools}, {match, history}) => {
+    const id = match.params.id
+    const school = schools.find(school => school.id === id*1)
+    console.log(school)
     return {
-        schools
+        schools,
+        history,
+        id,
+        school
     }
 }
 

@@ -6,6 +6,7 @@ import School from './School'
 import Students from './Students'
 import Student from './Student'
 import NewStudent from './NewStudent'
+import NewSchool from './NewSchool'
 import { connect } from 'react-redux'
 import {loadSchools, loadStudents} from './store'
 
@@ -26,13 +27,16 @@ class App extends Component {
                 <div>
                 <Nav/>
                 <Route exact path = '/schools' component = { () => <Schools/>}/>
-                <Route exact path = '/students' component = { () => <Students/>}/>
-                <Route path = '/schools/:id' component = {School}/>
+                <Route exact path = '/students' component = {Students}/>
                 <Switch>
-                <Route path = '/students/create' component = { () => <NewStudent/>}/>
+                <Route path = '/schools/create' component = {NewSchool}/>
+                <Route path = '/schools/:id' component = {School}/>
+                </Switch>
+                <Switch>
+                <Route path = '/students/create/:id' component = {NewStudent}/>
+                <Route path = '/students/create' component = {NewStudent}/>
                 <Route path = '/students/:id' component = {Student}/>
                 </Switch>
-                <Route path = '/schools/create' component = { () => <School/>}/>
                 </div>
             </Router>
         )

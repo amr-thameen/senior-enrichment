@@ -1,65 +1,84 @@
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
-import { deleteStudent } from './store'
+import { deleteStudent , updateStudent } from './store'
 
 
 class Student extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            student : this.props.student,
-            schools : this.props.schools
+                firstName : '',
+                lastName : '',
+                gpa : 0,
+                schoolId : null,
         }
         this.onChange = this.onChange.bind(this)
+        this.handleSubmit = this.handleSubmit.bind(this)
+    }
+
+    componentDidMount(){
+        if (this.props.student){
+            this.setStudent(this.props.student)
+        }
+    }
+
+    setStudent(student){
+        const {firstName, lastName, gpa, schoolId} = this.props.student
+        this.setState({
+            firstName,
+            lastName,
+            gpa,
+            schoolId
+        })
     }
 
     componentDidUpdate(prevProps){
         if (!prevProps.student && this.props.student) {
-            this.setState({
-                student: this.props.student,
-                schools: this.props.schools
-            })
+            this.setStudent(this.props.student)
         }
     }
 
-    onSave(ev){
+    handleSubmit(ev){
         ev.preventDefault()
+        this.props.updateStudent(this.state)
+        this.props.history.push('/students')
     }
 
     onChange(ev){
         this.setState({
-            student: ev.target.value
+            [ev.target.name] : ev.target.value
         })
     }
     
     render() {
-        const student = this.state.student
-        const school = this.state.schools.find(school => school.id === student.schoolId)
-        const filteredschools = this.state.schools.filter(school => school.id !== student.schoolId)
-        const {onChange} = this
-
+        const {firstName, lastName, gpa, schoolId} = this.state
+        const student = this.props.student
+        const school = this.props.schools.find(school => school.id === schoolId)
+        const filteredschools = this.props.schools.filter(school => school.id !== schoolId)
+        const {onChange, handleSubmit} = this
+        console.log(this.state)
         return (
             <Fragment>
-                <h2>{student ? student.firstName + " " + student.lastName : null}</h2>
+                <h2>{firstName + " " + lastName}</h2>
                 <div>
-                    <form>
+                    <form onSubmit = {handleSubmit}>
                         <label>First Name</label>
-                        <input value = {student ? student.firstName : ''} onChange = {onChange} name = 'first'></input>
+                        <input value = {firstName ? firstName : ''} onChange = {onChange} name = 'firstName'></input>
                         <div>
                             <label>Last Name</label>
-                            <input value = {student ? student.lastName : ''}></input>
+                            <input value = {lastName ? lastName : ''} onChange = {onChange} name = 'lastName'></input>
                         </div>
                         <div>
                             <label>GPA</label>
-                            <input value = {student ? student.gpa : ''}></input>
+                            <input value = {gpa ? gpa : ''} onChange = {onChange} name = 'gpa'></input>
                         </div>
                         <div>
                             <label>School</label>
-                            <select defaultValue = {school? school.name: null}>
+                            <select defaultValue = {school? school.name: null} onChange = {onChange} name = 'schoolId'>
                                 <option selected="selected">{school ? school.name : ""}</option>
                                 {filteredschools.map(school => {
                                     return (
-                                        <option value={school.name} key={school.id}>{school.name}</option>
+                                        <option value={school.id} key={school.id}>{school.name}</option>
                                     )
                                 })}
                             </select>
@@ -87,9 +106,10 @@ const mapStateToProps = ({students, schools}, {match, history}) => {
     }
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch, { match }) => {
     return {
-        deleteStudent: (student) => dispatch(deleteStudent(student))
+        deleteStudent: (student) => dispatch(deleteStudent(student)),
+        updateStudent: (student) => dispatch(updateStudent(student, match.params.id))
     }
 }
 

@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize')
-const db = new Sequelize(process.env.DATABASE_URL)
+const db = new Sequelize(process.env.DATABASE_URL, { logging: false })
 
-const Student = db.define('students', {
+const Student = db.define('student', {
     firstName: {
         type: Sequelize.STRING,
         allowNull: false,
@@ -16,7 +16,7 @@ const Student = db.define('students', {
     }
 })
 
-const School = db.define('schools', {
+const School = db.define('school', {
     name: {
         type: Sequelize.STRING,
         allowNull: false
