@@ -9,6 +9,7 @@ import NewStudent from './NewStudent'
 import NewSchool from './NewSchool'
 import { connect } from 'react-redux'
 import {loadSchools, loadStudents} from './store'
+import Notifications, {notify} from 'react-notify-toast'
 
 
 class App extends Component {
@@ -25,6 +26,7 @@ class App extends Component {
         return (
             <Router>
                 <div>
+                <Notifications/>
                 <Nav/>
                 <Route exact path = '/schools' component = { () => <Schools/>}/>
                 <Route exact path = '/students' component = {Students}/>

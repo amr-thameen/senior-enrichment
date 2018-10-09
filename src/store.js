@@ -74,7 +74,7 @@ const _updateSchool = (school) => {
 //Thunks
 const loadSchools = () => {
     return (dispatch) => {
-        return axios.get('/schools')
+        return axios.get('/api/schools')
                     .then((response) => response.data)
                     .then((schools) => dispatch(_loadSchools(schools)))
     }
@@ -82,7 +82,7 @@ const loadSchools = () => {
 
 const loadStudents = () => {
     return (dispatch) => {
-        return axios.get('/students')
+        return axios.get('/api/students')
                 .then(response => response.data)
                 .then(students => dispatch(_loadStudents(students)))
     }
@@ -90,21 +90,21 @@ const loadStudents = () => {
 
 const deleteStudent = (student) => {
     return (dispatch) => {
-        return axios.delete(`/students/${student.id}`)
+        return axios.delete(`/api/students/${student.id}`)
                 .then(() => dispatch(_deleteStudent(student)))
     }
 }
 
 const deleteSchool = (school) => {
     return (dispatch) => {
-        return axios.delete(`/schools/${school.id}`)
+        return axios.delete(`/api/schools/${school.id}`)
                 .then(() => dispatch(_deleteSchool(school)))
     }
 }
 
 const createStudent = (student) => {
     return (dispatch) => {
-        return axios.post('/students/create', student)
+        return axios.post('/api/students/create', student)
             .then(response => response.data)
             .then(student => dispatch(_createStudent(student)))
     }
@@ -112,7 +112,7 @@ const createStudent = (student) => {
 
 const createSchool = (school) => {
     return (dispatch) => {
-        return axios.post('/schools/create', school)
+        return axios.post('/api/schools/create', school)
                 .then(response => response.data)
                 .then(school => dispatch(_createSchool(school)))
     }
@@ -120,7 +120,7 @@ const createSchool = (school) => {
 
 const updateStudent = (student, id) => {
     return (dispatch) => {
-        return axios.put(`/student/${id}`, student)
+        return axios.put(`/api/student/${id}`, student)
                     .then(response => response.data)
                     .then(student => dispatch(_updateStudent(student)))
     }
@@ -128,7 +128,7 @@ const updateStudent = (student, id) => {
 
 const updateSchool = (school, id) => {
     return (dispatch) => {
-        return axios.put(`/school/${id}`, school)
+        return axios.put(`/api/school/${id}`, school)
                     .then(response => response.data)
                     .then(school => dispatch(_updateSchool(school)))
     }

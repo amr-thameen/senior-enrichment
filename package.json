@@ -2,7 +2,7 @@
   "name": "user-departments-practice",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "./server/index.js",
   "dependencies": {
     "axios": "^0.18.0",
     "babel-core": "^6.26.3",
@@ -15,6 +15,7 @@
     "pg": "^7.4.3",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
+    "react-notify-toast": "^0.5.0",
     "react-redux": "^5.0.7",
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",

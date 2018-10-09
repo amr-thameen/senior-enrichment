@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import {connect} from 'react-redux'
 import {createStudent} from './store'
+import {notify} from 'react-notify-toast'
 
 class NewStudent extends Component {
     constructor(props){
@@ -25,7 +26,9 @@ class NewStudent extends Component {
     handleSubmit(ev){
         ev.preventDefault()
         this.props.createStudent(this.state)
-        this.props.history.push('/students')
+        let myColor = { background: '#00B32C', text: "#FFFFFF" }
+        notify.show("Student Created!", "custom", 5000, myColor)
+        setTimeout(this.props.history.push('/students'), 1)
     }
 
     render() {

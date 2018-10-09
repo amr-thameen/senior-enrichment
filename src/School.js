@@ -10,8 +10,9 @@ class School extends Component {
         this.state = {
             name: this.props.school ? this.props.school.name : '',
             description: this.props.school ? this.props.school.description : '',
-            address: this.props.school ? this.props.school.address : ''
+            address: this.props.school ? this.props.school.address : '',
         }
+
         this.onChange = this.onChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
     }
@@ -39,6 +40,11 @@ class School extends Component {
         this.props.history.push('/schools')
     }
 
+    handleChangeStudent(e){
+        this.setState({
+            studentId: e.target.value
+        })
+    }
 
     render() {
         const school = this.props.school
@@ -85,7 +91,7 @@ class School extends Component {
                                 </div>
                             )})}
                     </div>
-                <form>
+                {/* <form>
                     <select>
                         {studentsOutSchool.map(student => {
                             return (
@@ -94,7 +100,7 @@ class School extends Component {
                         })}
                     </select>
                     <button className="btn btn-success">+ Add Student To School</button>
-                </form>
+                </form> */}
                 <Link to = {`/students/create/${school ? school.id : ''}`}><button className ="btn btn-primary">+ Create New Student</button></Link>
                 </div>
             </Fragment>

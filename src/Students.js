@@ -21,8 +21,9 @@ class Students extends Component {
 
 
     findSchool (schoolId) {
+        console.log(schoolId)
         const schools = this.props.schools
-        const school = schools.find(school => school.id === schoolId) 
+        const school = schools.find(school => school.id === parseInt(schoolId)) 
         return school.name
     }
 

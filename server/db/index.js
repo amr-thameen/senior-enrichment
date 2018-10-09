@@ -84,8 +84,6 @@ const syncAndSeed = () => {
 }
 
 
-
-
 module.exports = {
     models: {
         Student,
